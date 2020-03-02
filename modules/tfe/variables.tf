@@ -9,14 +9,9 @@ variable "organization" {
   description = "TFE Organization"
 }
 
-variable "slackurl" {
-  default = "https://hooks.slack.com/services/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"
-}
-
 variable "workspace_id" {}
-
+variable "vcs_repo_identifier" {}
 variable "working_directory" {}
-
 variable "workspace_branch" {}
 
 # variable "repo_org" {}
@@ -31,4 +26,3 @@ variable "workspace_branch" {}
 # variable "arm_client_secret" {}
 # variable "arm_tenant_id" {}
 # variable "arm_client_id" {}
-variable vcs_repo_identifier {}
