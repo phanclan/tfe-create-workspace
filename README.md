@@ -3,8 +3,8 @@
 - Create a workspace in TFE connected to VCS.
 - Creates Ops and Dev teams.
 
-* You need to replace `name` for tfe_team ops and dev with your own.
-* You need to replace `username` with your own for ops and dev.
+- You need to replace `name` for tfe_team ops and dev with your own.
+- You need to replace `username` with your own for ops and dev.
 * Replace the variables or values in workspaces.tf.
 * Replace the variables or values in teams.tf.
 * Run this command to fetch your terraform token from `.terraformrc` and store it as the `TOKEN` environment variable:
