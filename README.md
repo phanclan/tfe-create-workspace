@@ -1,7 +1,7 @@
 # Quick Start
 
-* Create a workspace in TFE connected to VCS.
-* Creates Ops and Dev teams.
+- Create a workspace in TFE connected to VCS.
+- Creates Ops and Dev teams.
 
 * You need to replace `name` for tfe_team ops and dev with your own.
 * You need to replace `username` with your own for ops and dev.
