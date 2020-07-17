@@ -74,18 +74,16 @@ We need a module for each workspace we want to create. Two are provided for exam
 		* `vcs_repo_identifier`
 		* `working_directory`
 		* `workspace_branch`
-		* `oauth_token_id` -
-			* You can provide this through an environmental variable:
-```
-export TF_VAR_oauth_token_id=<token>
-```
-			* Or in a `terraform.tfvars` file.
+		* `oauth_token_id`
+			* Provide either through a `terraform.tfvars` file or in an environmental variable see Pre-reqs:
 
 Initialize and apply.
 ```
 terraform init -upgrade
 terraform apply
 ```
+
+I use `-upgrade` to make sure I get the latest version of the providers. This may not be appropriate for you.
 
 
 ## Step 2. Create Teams
