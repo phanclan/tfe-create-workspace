@@ -1,18 +1,20 @@
-variable "tfe_token" {}
-variable "tfe_version" {}
+# variable "tfe_token" {} # provided by root module.
+variable "tf_version" {}
 
 variable "oauth_token_id" {
   description = "For VCS"
+  default = ""
 }
 
 variable "organization" {
   description = "TFE Organization"
 }
 
-variable "workspace_id" {}
-variable "vcs_repo_identifier" {}
-variable "working_directory" {}
-variable "workspace_branch" {}
+variable "workspace_name" {}
+variable "working_directory" { default = ""}
+variable "vcs_repo" { default = []}
+# variable "vcs_repo_identifier" {}
+# variable "workspace_branch" { default = ""}
 
 # variable "repo_org" {}
 # variable "gcp_region" {}

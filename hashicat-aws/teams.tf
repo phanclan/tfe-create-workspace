@@ -33,12 +33,14 @@ resource "tfe_team_member" "dev" {
 resource "tfe_team_access" "ops" {
   access       = "admin"
   team_id      = tfe_team.ops.id
+  # workspace_id = data.tfe_workspace.test.id
   workspace_id = module.hashicat-aws.workspace_id
 }
 
 resource "tfe_team_access" "dev" {
   access       = "read"
   team_id      = tfe_team.dev.id
+  # workspace_id = data.tfe_workspace.test.id
   workspace_id = module.hashicat-aws.workspace_id
 }
 

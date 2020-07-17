@@ -1,37 +1,21 @@
-provider "tfe" {
-  token    = var.tfe_token
-  hostname = "app.terraform.io"
-}
-
-# data "tfe_workspace" "one-webserver" {
-#   name         = "staging-one-webserver-aws-usw2"
-#   organization = "pphan"
-# }
-
 resource "tfe_workspace" "template" {
-  name              = var.workspace_id
+  name              = var.workspace_name
   organization      = var.organization
-  terraform_version = var.tfe_version
+  terraform_version = var.tf_version
   queue_all_runs    = false
   auto_apply        = true
   working_directory = var.working_directory
 
-  vcs_repo {
-    oauth_token_id = var.oauth_token_id
-    identifier     = var.vcs_repo_identifier
-    branch         = var.workspace_branch
+  # dynamic block allows me to not require these variables from root module.
+  dynamic "vcs_repo" {
+    for_each = var.vcs_repo
+    content {
+      oauth_token_id = vcs_repo.value.oauth_token_id
+      identifier     = vcs_repo.value.vcs_repo_identifier
+      branch         = vcs_repo.value.workspace_branch
+    }
   }
 }
-
-#------------------------------------------------------------------------------
-# WORKSPACE VARIABLES
-#------------------------------------------------------------------------------
-# resource "tfe_variable" "vcs_repo_identifier" {
-#   key          = "vcs_repo_identifier"
-#   value        = "${var.vcs_repo_identifier}"
-#   category     = "terraform"
-#   workspace_id = "${tfe_workspace.producer.id}"
-# }
 
 output "workspace_id" {
   value       = tfe_workspace.template.id

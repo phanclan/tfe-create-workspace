@@ -14,3 +14,13 @@ output "workspace_id" {
   value       = module.hashicat-aws.workspace_id
   description = "The TFE workspace ID"
 }
+
+# data "tfe_workspace" "test" {
+#   name         = "hashicat-aws"
+#   organization = "pphan"
+# }
+
+# output "workspace_id" {
+#   value       = data.tfe_workspace.test.id
+#   description = "The TFE workspace ID"
+# }
