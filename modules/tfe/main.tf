@@ -1,9 +1,9 @@
-resource "tfe_workspace" "template" {
+resource "tfe_workspace" "this" {
   name              = var.workspace_name
   organization      = var.organization
   terraform_version = var.tf_version
   queue_all_runs    = false
-  auto_apply        = true
+  auto_apply        = var.auto_apply
   working_directory = var.working_directory
 
   # dynamic block allows me to not require these variables from root module.
@@ -17,8 +17,25 @@ resource "tfe_workspace" "template" {
   }
 }
 
+resource "tfe_notification_configuration" "this" {
+  name                      = "${var.workspace_name}-notification"
+  enabled                   = true
+  destination_type          = "email"
+  # email_user_ids = [tfe_organization_membership.test.user_id]
+  # triggers                  = ["run:created", "run:planning", "run:needs_attention", "run:errored"]
+  triggers                  = ["run:needs_attention", "run:applying", "run:errored"]
+  workspace_id     = tfe_workspace.this.id
+}
+
+resource "tfe_variable" "name" {
+  key = "name"
+  value = var.workspace_name
+  category = "terraform"
+  workspace_id = tfe_workspace.this.id
+}
+
 output "workspace_id" {
-  value       = tfe_workspace.template.id
+  value       = tfe_workspace.this.id
   description = "The TFE workspace ID"
 }
 

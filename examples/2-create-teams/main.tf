@@ -6,7 +6,6 @@
 
 
 locals {
-  tfc_org = "pphan"
   prefix = "pphan"
 }
 
@@ -16,8 +15,8 @@ locals {
 
 module "team-dev" {
   source              = "../../modules/tfe_team"
-  team_name = "Development"
-  tfc_org = local.tfc_org
+  team_name = "dev"
+  tfc_org = var.tfc_org
   team_members = {
     "pphan-dev" = ""
     "pphan-ops" = ""
@@ -26,8 +25,8 @@ module "team-dev" {
 
 module "team-ops" {
   source              = "../../modules/tfe_team"
-  team_name = "Operations"
-  tfc_org = local.tfc_org
+  team_name = "ops"
+  tfc_org = var.tfc_org
   team_members = {
     "pphan-ops" = ""
   }
@@ -35,8 +34,8 @@ module "team-ops" {
 
 module "team-network" {
   source              = "../../modules/tfe_team"
-  team_name = "Network"
-  tfc_org = local.tfc_org
+  team_name = "network"
+  tfc_org = var.tfc_org
   team_members = {
     "pphan-ops" = ""
   }
@@ -44,12 +43,21 @@ module "team-network" {
 
 module "team-security" {
   source              = "../../modules/tfe_team"
-  team_name = "Security"
-  tfc_org = local.tfc_org
+  team_name = "security"
+  tfc_org = var.tfc_org
   team_members = {
     "pphan-ops" = ""
   }
 }
+
+# module "team-changeme" {
+#   source              = "../../modules/tfe_team"
+#   team_name = "Changeme"
+#   tfc_org = var.tfc_org
+#   team_members = {
+#     "pphan-ops" = ""
+#   }
+# }
 
 
 output "team-dev-id" {
@@ -63,4 +71,12 @@ output "team-security-id" {
 }
 output "team-ops-id" {
   value = module.team-ops.team_id
+}
+
+# output "team-changeme-id" {
+#   value = module.team-changeme.team_id
+# }
+
+variable "tfc_org" {
+  default = "pphan"
 }

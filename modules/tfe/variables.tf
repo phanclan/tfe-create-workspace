@@ -1,18 +1,19 @@
 # variable "tfe_token" {} # provided by root module.
 variable "tf_version" {}
+variable "name" { default = "pphan" }
 
 variable "oauth_token_id" {
   description = "For VCS"
-  default = ""
+  default     = ""
 }
 
 variable "organization" {
   description = "TFE Organization"
 }
-
+variable "auto_apply" { default = true }
 variable "workspace_name" {}
-variable "working_directory" { default = ""}
-variable "vcs_repo" { default = []}
+variable "working_directory" { default = "" }
+variable "vcs_repo" { default = [] }
 # variable "vcs_repo_identifier" {}
 # variable "workspace_branch" { default = ""}
 

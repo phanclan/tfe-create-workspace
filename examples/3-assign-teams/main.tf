@@ -9,46 +9,69 @@
 locals {
   team_dev = {
     "${data.tfe_workspace.workspace-1.id}" = "read"
-    "${data.tfe_workspace.workspace-2.id}" = "read"
-    # "${data.tfe_workspace.workspace-3.id}" = "write"
+    "${data.tfe_workspace.workspace-3.id}" = "write"
+    "${data.tfe_workspace.workspace-4.id}" = "read"
   }
   team_ops = {
     "${data.tfe_workspace.workspace-1.id}" = "write"
     "${data.tfe_workspace.workspace-2.id}" = "write"
     "${data.tfe_workspace.workspace-3.id}" = "write"
+    "${data.tfe_workspace.workspace-4.id}" = "write"
+  }
+  team_network = {
+    "${data.tfe_workspace.workspace-1.id}" = "write"
+    "${data.tfe_workspace.workspace-2.id}" = "write"
+    "${data.tfe_workspace.workspace-3.id}" = "write"
+    "${data.tfe_workspace.workspace-4.id}" = "write"
   }
   team_security = {
     "${data.tfe_workspace.workspace-1.id}" = "write"
     "${data.tfe_workspace.workspace-2.id}" = "write"
     "${data.tfe_workspace.workspace-3.id}" = "write"
+    "${data.tfe_workspace.workspace-4.id}" = "write"
   }
-  # team_xxx = {
+  # team_changeme = {
   #   "${data.tfe_workspace.<workspace>.id} = "<privilege>"
   # }
 }
 
 data "tfe_workspace" "workspace-1" {
-  name        = "gcp-compute-instance-dev-us-west-1"
+  name        = "hashicat-aws"
   organization = var.tfc_org
 }
 
 data "tfe_workspace" "workspace-2" {
-  name        = "aws-ec2-instance-dev-us-west-1"
+  name        = "gcp-compute-instance-dev-us-west-1"
   organization = var.tfc_org
 }
 
 data "tfe_workspace" "workspace-3" {
+  name        = "aws-ec2-instance-dev-us-west-1"
+  organization = var.tfc_org
+}
+
+data "tfe_workspace" "workspace-4" {
   name        = "aws-ec2-instance-prod-us-west-1"
   organization = var.tfc_org
 }
 
 data "tfe_team" "team-dev" {
-  name         = "Development"
+  name         = "dev"
   organization = var.tfc_org
 }
 
 data "tfe_team" "team-ops" {
-  name         = "Operations"
+  name         = "ops"
+  organization = var.tfc_org
+}
+
+data "tfe_team" "team-network" {
+  name         = "network"
+  organization = var.tfc_org
+}
+
+data "tfe_team" "team-security" {
+  name         = "security"
   organization = var.tfc_org
 }
 
@@ -69,6 +92,24 @@ resource "tfe_team_access" "ops" {
   for_each = local.team_ops
   access = each.value
   team_id      = data.tfe_team.team-ops.id
+  workspace_id = each.key
+
+  depends_on   = [data.tfe_workspace.workspace-1,data.tfe_workspace.workspace-2]
+}
+
+resource "tfe_team_access" "network" {
+  for_each = local.team_network
+  access = each.value
+  team_id      = data.tfe_team.team-network.id
+  workspace_id = each.key
+
+  depends_on   = [data.tfe_workspace.workspace-1]
+}
+
+resource "tfe_team_access" "security" {
+  for_each = local.team_security
+  access = each.value
+  team_id      = data.tfe_team.team-security.id
   workspace_id = each.key
 
   # depends_on   = [module.workspace-gcp1]
