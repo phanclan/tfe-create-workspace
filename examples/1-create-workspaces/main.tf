@@ -57,22 +57,22 @@ module "workspace-2" {
 #   ]
 # }
 
-# module "workspace-4" {
-#   source              = "../../modules/tfe"
-#   organization        = var.tfc_org
-#   workspace_name      = "aws-ec2-instance-prod-us-west-1"
-#   auto_apply          = false
-#   tf_version          = "0.12.29"
-#   # VCS Section - if you don't want VCS then comment out section below.
-#   vcs_repo  = [
-#     {
-#       vcs_repo_identifier = "phanclan/aws-ec2-instance"
-#       working_directory   = ""
-#       workspace_branch    = "prod" # default: master
-#       oauth_token_id      = var.oauth_token_id
-#     }
-#   ]
-# }
+module "workspace-4" {
+  source              = "../../modules/tfe"
+  organization        = var.tfc_org
+  workspace_name      = "aws-ec2-instance-prod-us-west-1"
+  auto_apply          = false
+  tf_version          = "0.12.29"
+  # VCS Section - if you don't want VCS then comment out section below.
+  vcs_repo  = [
+    {
+      vcs_repo_identifier = "phanclan/aws-ec2-instance"
+      working_directory   = ""
+      workspace_branch    = "prod" # default: master
+      oauth_token_id      = var.oauth_token_id
+    }
+  ]
+}
 
 
 output "workspace-1_id" {
@@ -83,10 +83,10 @@ output "workspace-2_id" {
   value = module.workspace-2.workspace_id
 }
 
-# output "workspace-3_ids" {
-#   value = module.workspace-3.workspace_id
-# }
+output "workspace-3_ids" {
+  value = module.workspace-3.workspace_id
+}
 
-# output "workspace-4_ids" {
-#   value = module.workspace-4.workspace_id
-# }
+output "workspace-4_ids" {
+  value = module.workspace-4.workspace_id
+}
