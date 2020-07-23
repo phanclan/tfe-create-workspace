@@ -90,8 +90,3 @@ output "workspace-3_ids" {
 output "workspace-4_ids" {
   value = module.workspace-4.workspace_id
 }
-
-variable "tfc_org" {
-  default = "pphan"
-}
-variable "oauth_token_id" {}
