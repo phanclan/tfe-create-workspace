@@ -30,7 +30,6 @@ module "workspace-2" {
   organization        = var.tfc_org
   workspace_name      = "gcp-compute-instance-dev-us-west-1"
   tf_version          = "0.11.14"
-  # VCS Section
   vcs_repo = [
     {
       vcs_repo_identifier = "phanclan/gcp-compute-instance"
@@ -46,7 +45,6 @@ module "workspace-3" {
   organization        = var.tfc_org
   workspace_name      = "aws-ec2-instance-dev-us-west-1"
   tf_version          = "0.12.29"
-  # VCS Section
   vcs_repo = [
     {
       vcs_repo_identifier = "phanclan/aws-ec2-instance"
