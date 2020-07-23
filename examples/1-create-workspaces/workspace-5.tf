@@ -29,7 +29,7 @@ resource "tfe_variable" "prefix" {
 }
 
 resource "tfe_variable" "project" {
-   key = "project"
+   key = "projects"
    value = var.project
    category = "env"
    # Try to Never Reveal this in statefiles our output
