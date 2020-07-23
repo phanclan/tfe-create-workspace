@@ -21,17 +21,17 @@ output "workspace-5_ids" {
 
 resource "tfe_variable" "prefix" {
    key = "prefix"
-   value = var.payg_subscription_client_secret
+   value = var.prefix
    category = "terraform"
    # Try to Never Reveal this in statefiles our output
    sensitive = false
-   workspace_id = tfe_workspace.demo1.id
+   workspace_id = module.workspace-5.workspace_id
 }
 
 resource "tfe_variable" "project" {
    key = "project"
    value = var.project
-   category = "terraform"
+   category = "env"
    # Try to Never Reveal this in statefiles our output
    sensitive = false
    workspace_id = module.workspace-5.workspace_id
