@@ -41,21 +41,21 @@ module "workspace-2" {
   ]
 }
 
-# module "workspace-3" {
-#   source              = "../../modules/tfe"
-#   organization        = var.tfc_org
-#   workspace_name      = "aws-ec2-instance-dev-us-west-1"
-#   tf_version          = "0.12.29"
-#   # VCS Section
-#   vcs_repo = [
-#     {
-#       vcs_repo_identifier = "phanclan/aws-ec2-instance"
-#       working_directory   = ""
-#       workspace_branch    = "dev" # default: master
-#       oauth_token_id      = var.oauth_token_id
-#     }
-#   ]
-# }
+module "workspace-3" {
+  source              = "../../modules/tfe"
+  organization        = var.tfc_org
+  workspace_name      = "aws-ec2-instance-dev-us-west-1"
+  tf_version          = "0.12.29"
+  # VCS Section
+  vcs_repo = [
+    {
+      vcs_repo_identifier = "phanclan/aws-ec2-instance"
+      working_directory   = ""
+      workspace_branch    = "dev" # default: master
+      oauth_token_id      = var.oauth_token_id
+    }
+  ]
+}
 
 module "workspace-4" {
   source              = "../../modules/tfe"
