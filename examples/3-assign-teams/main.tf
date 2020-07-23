@@ -46,7 +46,7 @@ data "tfe_workspace" "workspace-2" {
 }
 
 data "tfe_workspace" "workspace-3" {
-  name        = "aws-ec2-instance-dev-us-west-1"
+  name        = "aws-ec2-instance-dev-us-west-2"
   organization = var.tfc_org
 }
 
