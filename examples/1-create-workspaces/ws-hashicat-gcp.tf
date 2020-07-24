@@ -34,8 +34,7 @@ resource "tfe_variable" "project" {
    key = "projects"
    value = var.project
    category = "env"
-   # Try to Never Reveal this in statefiles our output
-   sensitive = false
+   sensitive = false # Never Reveal this in statefiles our output
    workspace_id = module.hashicat-gcp.workspace_id
 }
 
@@ -43,6 +42,6 @@ resource "tfe_variable" "google_credentials" {
    key = "GOOGLE_CREDENTIALS"
    value = var.GOOGLE_CREDENTIALS
    category = "env"
-   sensitive = false # Try to Never Reveal this in statefiles our output
+   sensitive = false # Never Reveal this in statefiles our output
    workspace_id = module.hashicat-gcp.workspace_id
 }
