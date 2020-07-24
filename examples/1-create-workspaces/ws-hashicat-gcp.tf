@@ -31,7 +31,7 @@ resource "tfe_variable" "prefix" {
 # Pass down the secrets from 1-create-workspace to
 # the job being created.
 resource "tfe_variable" "project" {
-   key = "projects"
+   key = "project"
    value = var.project
    category = "env"
    sensitive = false # Never Reveal this in statefiles our output
