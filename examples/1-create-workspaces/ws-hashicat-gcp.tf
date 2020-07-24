@@ -39,8 +39,8 @@ resource "tfe_variable" "project" {
    workspace_id = module.hashicat-gcp.workspace_id
 }
 
-resource "tfe_variable" "project" {
-   key = "projects"
+resource "tfe_variable" "google_credentials" {
+   key = "GOOGLE_CREDENTIALS"
    value = var.GOOGLE_CREDENTIALS
    category = "env"
    # Try to Never Reveal this in statefiles our output
