@@ -38,3 +38,12 @@ resource "tfe_variable" "project" {
    sensitive = false
    workspace_id = module.hashicat-gcp.workspace_id
 }
+
+resource "tfe_variable" "project" {
+   key = "projects"
+   value = var.GOOGLE_CREDENTIALS
+   category = "env"
+   # Try to Never Reveal this in statefiles our output
+   sensitive = false
+   workspace_id = module.hashicat-gcp.workspace_id
+}
