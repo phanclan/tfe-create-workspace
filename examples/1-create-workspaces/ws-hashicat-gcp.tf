@@ -33,7 +33,7 @@ resource "tfe_variable" "prefix" {
 resource "tfe_variable" "project" {
    key = "project"
    value = var.project
-   category = "env"
+   category = "terraform"
    sensitive = false # Never Reveal this in statefiles our output
    workspace_id = module.hashicat-gcp.workspace_id
 }
