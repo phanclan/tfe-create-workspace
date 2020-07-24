@@ -27,7 +27,7 @@ module "hashicat-aws" {
 }
 
 output "ws-hashicat-aws_id" {
-  value = module.workspace-1.workspace_id
+  value = module.hashicat-aws.workspace_id
 }
 
 # Assign secrets from 1-create-workspace to workspace being created.
