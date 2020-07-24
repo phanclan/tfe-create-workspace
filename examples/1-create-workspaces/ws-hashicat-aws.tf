@@ -30,9 +30,7 @@ output "ws-hashicat-aws_id" {
   value = module.workspace-1.workspace_id
 }
 
-# Pass down the secrets from 1-create-workspace to
-# the job being created.
-
+# Assign secrets from 1-create-workspace to workspace being created.
 resource "tfe_variable" "aws_access_key_id" {
    key = "AWS_ACCESS_KEY_ID"
    value = var.AWS_ACCESS_KEY_ID
