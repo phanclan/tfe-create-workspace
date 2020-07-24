@@ -16,7 +16,7 @@ module "hashicat-gcp" {
 }
 
 output "ws-hashicat-gcp_ids" {
-  value = module.workspace-5.workspace_id
+  value = module.hashicat-gcp.workspace_id
 }
 
 resource "tfe_variable" "prefix" {
@@ -25,7 +25,7 @@ resource "tfe_variable" "prefix" {
    category = "terraform"
    # Try to Never Reveal this in statefiles our output
    sensitive = false
-   workspace_id = module.workspace-5.workspace_id
+   workspace_id = module.hashicat-gcp.workspace_id
 }
 
 # Pass down the secrets from 1-create-workspace to
