@@ -9,22 +9,42 @@
 # Create Workspaces
 #------------------------------------------------------------------------------
 
-# module "workspace-1" {
-#   source              = "../../modules/tfe"
-#   organization        = var.tfc_org
-#   workspace_name      = "hashicat-aws"
-#   tf_version          = "0.12.29"
-#   # VCS Section - if you don't want VCS then comment out section below.
-#   # vcs_repo  = [
-#   #   {
-#   #     vcs_repo_identifier = "phanclan/hashicat-aws"
-#   #     working_directory   = ""
-#   #     workspace_branch    = "" # default: master
-#   #     oauth_token_id      = var.oauth_token_id
-#   #   }
-#   # ]
-# }
+module "hashicat-aws" {
+  source              = "../../modules/tfe"
+  organization        = var.tfc_org
+  workspace_name      = "hashicat-aws"
+  auto_apply          = true
+  tf_version          = "0.12.29"
+  # VCS Section - if you don't want VCS then comment out section below.
+  # vcs_repo  = [
+  #   {
+  #     vcs_repo_identifier = "phanclan/hashicat-aws"
+  #     working_directory   = ""
+  #     workspace_branch    = "" # default: master
+  #     oauth_token_id      = var.oauth_token_id
+  #   }
+  # ]
+}
 
-# output "workspace-1_id" {
-#   value = module.workspace-1.workspace_id
-# }
+output "ws-hashicat-aws_id" {
+  value = module.workspace-1.workspace_id
+}
+
+# Pass down the secrets from 1-create-workspace to
+# the job being created.
+
+resource "tfe_variable" "aws_access_key_id" {
+   key = "AWS_ACCESS_KEY_ID"
+   value = var.AWS_ACCESS_KEY_ID
+   category = "env"
+   sensitive = true # Never Reveal this in statefiles our output
+   workspace_id = module.hashicat-aws.workspace_id
+}
+
+resource "tfe_variable" "aws_secret_access_key" {
+   key = "AWS_SECRET_ACCESS_KEY"
+   value = var.AWS_SECRET_ACCESS_KEY
+   category = "env"
+   sensitive = true # Never Reveal this in statefiles our output
+   workspace_id = module.hashicat-aws.workspace_id
+}

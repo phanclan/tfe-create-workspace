@@ -1,3 +1,14 @@
+# This example creates one or more workspaces.
+
+# Replace variable defaults for tfc_org.
+# For each module below do the following:
+# Provide values for workspace_name and tf_version.
+# If VCS backed then provide value for VCS section.
+
+#------------------------------------------------------------------------------
+# Create Workspaces
+#------------------------------------------------------------------------------
+
 module "hashicat-gcp" {
   source              = "../../modules/tfe"
   organization        = var.tfc_org
