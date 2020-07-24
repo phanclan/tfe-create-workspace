@@ -2,7 +2,7 @@ module "hashicat-gcp" {
   source              = "../../modules/tfe"
   organization        = var.tfc_org
   workspace_name      = "hashicat-gcp"
-  auto_apply          = false
+  auto_apply          = true
   tf_version          = "0.12.29"
   # VCS Section - if you don't want VCS then comment out section below.
   vcs_repo  = [
@@ -42,6 +42,6 @@ resource "tfe_variable" "google_credentials" {
    key = "GOOGLE_CREDENTIALS"
    value = var.GOOGLE_CREDENTIALS
    category = "env"
-   sensitive = false # Never Reveal this in statefiles our output
+   sensitive = true # Never Reveal this in statefiles our output
    workspace_id = module.hashicat-gcp.workspace_id
 }
