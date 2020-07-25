@@ -31,6 +31,14 @@ output "ws-hashicat-aws_id" {
 }
 
 # Assign secrets from 1-create-workspace to workspace being created.
+resource "tfe_variable" "prefix" {
+   key = "prefix"
+   value = var.prefix
+   category = "terraform"
+   sensitive = false # Never Reveal this in statefiles our output
+   workspace_id = module.hashicat-aws.workspace_id
+}
+
 resource "tfe_variable" "aws_access_key_id" {
    key = "AWS_ACCESS_KEY_ID"
    value = var.AWS_ACCESS_KEY_ID
