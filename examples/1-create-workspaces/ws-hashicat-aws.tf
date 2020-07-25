@@ -31,7 +31,7 @@ output "ws-hashicat-aws_id" {
 }
 
 # Assign secrets from 1-create-workspace to workspace being created.
-resource "tfe_variable" "prefix" {
+resource "tfe_variable" "hashicat-aws-prefix" {
    key = "prefix"
    value = var.prefix
    category = "terraform"
