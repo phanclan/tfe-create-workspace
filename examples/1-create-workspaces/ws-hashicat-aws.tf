@@ -15,7 +15,7 @@ module "hashicat-aws" {
   workspace_name      = "hashicat-aws"
   auto_apply          = true
   tf_version          = "0.12.29"
-  VCS Section - if you don't want VCS then comment out section below.
+  # VCS Section - if you don't want VCS then comment out section below.
   vcs_repo  = [
     {
       vcs_repo_identifier = "phanclan/hashicat-aws"
