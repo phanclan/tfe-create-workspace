@@ -2,7 +2,7 @@ resource "tfe_workspace" "this" {
   name              = var.workspace_name
   organization      = var.organization
   terraform_version = var.tf_version
-  queue_all_runs    = false
+  queue_all_runs    = true
   auto_apply        = var.auto_apply
   working_directory = var.working_directory
 
