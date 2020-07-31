@@ -13,7 +13,7 @@ module "hashicat-gcp" {
   source              = "../../modules/tfe"
   organization        = var.tfc_org
   workspace_name      = "hashicat-gcp"
-  auto_apply          = true
+  # auto_apply          = true
   tf_version          = "0.12.29"
   # VCS Section - if you don't want VCS then comment out section below.
   vcs_repo  = [

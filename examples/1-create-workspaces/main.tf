@@ -43,7 +43,6 @@ module "workspace-4" {
   source              = "../../modules/tfe"
   organization        = var.tfc_org
   workspace_name      = "aws-ec2-instance-prod-us-west-1"
-  auto_apply          = false
   tf_version          = "0.12.29"
   # VCS Section - if you don't want VCS then comment out section below.
   vcs_repo  = [

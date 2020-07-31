@@ -10,7 +10,7 @@ variable "oauth_token_id" {
 variable "organization" {
   description = "TFE Organization"
 }
-variable "auto_apply" { default = true }
+variable "auto_apply" { default = false }
 variable "workspace_name" {}
 variable "working_directory" { default = "" }
 variable "vcs_repo" { default = [] }

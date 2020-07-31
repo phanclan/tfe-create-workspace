@@ -26,6 +26,8 @@ module "hashicat-aws" {
   ]
 }
 
+#delete this
+
 output "ws-hashicat-aws_id" {
   value = module.hashicat-aws.workspace_id
 }
