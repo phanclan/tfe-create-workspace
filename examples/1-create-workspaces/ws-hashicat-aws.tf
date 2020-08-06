@@ -42,7 +42,7 @@ resource "tfe_variable" "hashicat-aws-prefix" {
    workspace_id = module.hashicat-aws.workspace_id
 }
 
-resource "tfe_variable" "aws_access_key_id" {
+resource "tfe_variable" "hashicat-aws_aws_access_key_id" {
    key = "AWS_ACCESS_KEY_ID"
    value = var.AWS_ACCESS_KEY_ID
    category = "env"
@@ -50,7 +50,7 @@ resource "tfe_variable" "aws_access_key_id" {
    workspace_id = module.hashicat-aws.workspace_id
 }
 
-resource "tfe_variable" "aws_secret_access_key" {
+resource "tfe_variable" "hashicat-aws_aws_secret_access_key" {
    key = "AWS_SECRET_ACCESS_KEY"
    value = var.AWS_SECRET_ACCESS_KEY
    category = "env"
