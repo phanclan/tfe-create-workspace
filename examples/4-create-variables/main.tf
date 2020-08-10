@@ -5,7 +5,7 @@ resource "tfe_variable" "dns-multicloud-prefix" {
   value = var.prefix
   category = "terraform"
   sensitive = false # Never Reveal this in statefiles our output
-  workspace_id = ${var.tfc_org}/dns-multicloud
+  workspace_id = "${var.tfc_org}/dns-multicloud"
 }
 
 # resource "tfe_variable" "dns-multicloud_aws_access_key_id" {
