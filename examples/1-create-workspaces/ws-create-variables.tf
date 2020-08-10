@@ -9,7 +9,7 @@
 # Create Workspaces
 #------------------------------------------------------------------------------
 
-module "4-create-variables" {
+module "create-variables" {
   source              = "../../modules/tfe"
   organization        = var.tfc_org
   workspace_name      = "4-create-variables"
