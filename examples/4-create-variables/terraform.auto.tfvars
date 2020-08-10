@@ -1,3 +1,4 @@
 workspace_ids = [
-  "1-create-workspaces",
+  "dns-multicloud",
+  "hashicat-aws",
 ]

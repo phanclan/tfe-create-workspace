@@ -4,32 +4,54 @@ data "tfe_workspace_ids" "create-workspaces" {
 }
 
 output "workspace_id" {
-  value = data.tfe_workspace_ids.create-workspaces[*].external_ids
+  value = data.tfe_workspace_ids.create-workspaces.external_ids
+}
+
+output "test" {
+  value = data.tfe_workspace_ids.create-workspaces.full_names
+  # value = {
+  #   for i in data.tfe_workspace_ids.create-workspaces :
+  #   i => i
+  # }
 }
 
 # Assign secrets from 1-create-workspace to workspace being created.
-resource "tfe_variable" "dns-multicloud-prefix" {
-  for_each = var.workspace_ids
-  key = "prefix"
-  value = var.prefix
-  category = "terraform"
-  sensitive = false # Never Reveal this in statefiles our output
-  workspace_id = "each.value"
+# resource "tfe_variable" "dns-multicloud-prefix" {
+#   for_each = data.tfe_workspace_ids.create-workspaces.external_ids
+#   key = "prefix"
+#   value = var.prefix
+#   category = "terraform"
+#   sensitive = false # Never Reveal this in statefiles our output
+#   workspace_id = each.value
+# }
+
+#-------------
+
+# Assign secrets from 4-create-variables to workspaces listed in workspace_ids.
+
+resource "tfe_variable" "aws_access_key_id" {
+  for_each = data.tfe_workspace_ids.create-workspaces.external_ids
+  key = "AWS_ACCESS_KEY_ID"
+  value = var.AWS_ACCESS_KEY_ID
+  category = "env"
+  sensitive = false
+  workspace_id = each.value
 }
 
-# resource "tfe_variable" "dns-multicloud_aws_access_key_id" {
-#   # for_each = var.workspace_ids
-#   key = "AWS_ACCESS_KEY_ID"
-#   value = var.AWS_ACCESS_KEY_ID
-#   category = "env"
-#   sensitive = true # Never Reveal this in statefiles our output
-#   workspace_id = module.dns-multicloud.workspace_id
-# }
+resource "tfe_variable" "aws_secret_access_key" {
+  for_each = data.tfe_workspace_ids.create-workspaces.external_ids
+   key = "AWS_SECRET_ACCESS_KEY"
+   value = var.AWS_SECRET_ACCESS_KEY
+   category = "env"
+   sensitive = true # Never Reveal this in statefiles our output
+   workspace_id = each.value
+}
 
-# resource "tfe_variable" "dns-multicloud_aws_secret_access_key" {
-#    key = "AWS_SECRET_ACCESS_KEY"
-#    value = var.AWS_SECRET_ACCESS_KEY
-#    category = "env"
-#    sensitive = true # Never Reveal this in statefiles our output
-#    workspace_id = module.dns-multicloud.workspace_id
-# }
+resource "tfe_variable" "aws_session_token" {
+  for_each = data.tfe_workspace_ids.create-workspaces.external_ids
+   key = "AWS_SESSION_TOKEN"
+   value = var.AWS_SESSION_TOKEN
+   category = "env"
+   sensitive = true # Never Reveal this in statefiles our output
+   workspace_id = each.value
+}
