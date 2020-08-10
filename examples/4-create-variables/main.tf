@@ -1,3 +1,12 @@
+data "tfe_workspace_ids" "create-workspaces" {
+  names        = var.workspace_ids
+  organization = var.tfc_org
+}
+
+output "workspace_id" {
+  value = data.tfe_workspace_ids[*].external_ids
+}
+
 # Assign secrets from 1-create-workspace to workspace being created.
 resource "tfe_variable" "dns-multicloud-prefix" {
   # for_each = var.workspace_ids
@@ -5,7 +14,7 @@ resource "tfe_variable" "dns-multicloud-prefix" {
   value = var.prefix
   category = "terraform"
   sensitive = false # Never Reveal this in statefiles our output
-  workspace_id = "${var.tfc_org}/dns-multicloud"
+  workspace_id = "pphan/dns-multicloud"
 }
 
 # resource "tfe_variable" "dns-multicloud_aws_access_key_id" {
