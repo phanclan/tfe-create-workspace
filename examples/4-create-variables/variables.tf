@@ -68,38 +68,38 @@ variable "ops_access" {
   }
 }
 
-resource "null_resource" "ops" {
-  count = "${length(split(",", var.ops_access["repo"]))}"
+# resource "null_resource" "ops" {
+#   count = "${length(split(",", var.ops_access["repo"]))}"
 
-  triggers {
-    repo   = "${element(split(",", var.ops_access["repo"]), count.index)}"
-    access = "${element(split(",", var.ops_access["access"]), count.index)}"
-  }
-}
+#   triggers {
+#     repo   = "${element(split(",", var.ops_access["repo"]), count.index)}"
+#     access = "${element(split(",", var.ops_access["access"]), count.index)}"
+#   }
+# }
 
 
 
-variable "repo_org" {}
+# variable "repo_org" {}
 
-variable "gcp_region" {}
+# variable "gcp_region" {}
 
-variable "gcp_zone" {}
+# variable "gcp_zone" {}
 
-variable "gcp_project" {}
+# variable "gcp_project" {}
 
-variable "gcp_credentials" {}
+# variable "gcp_credentials" {}
 
-variable "aws_default_region" {}
+# variable "aws_default_region" {}
 
-variable "aws_secret_access_key" {}
+# variable "aws_secret_access_key" {}
 
-variable "aws_access_key_id" {}
+# variable "aws_access_key_id" {}
 
-variable "arm_subscription_id" {}
+# variable "arm_subscription_id" {}
 
-variable "arm_client_secret" {}
+# variable "arm_client_secret" {}
 
-variable "arm_tenant_id" {}
+# variable "arm_tenant_id" {}
 
-variable "arm_client_id" {}
+# variable "arm_client_id" {}
 
