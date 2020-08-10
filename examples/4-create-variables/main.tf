@@ -15,15 +15,6 @@ output "test" {
   # }
 }
 
-# Assign secrets from 1-create-workspace to workspace being created.
-# resource "tfe_variable" "dns-multicloud-prefix" {
-#   for_each = data.tfe_workspace_ids.create-workspaces.external_ids
-#   key = "prefix"
-#   value = var.prefix
-#   category = "terraform"
-#   sensitive = false # Never Reveal this in statefiles our output
-#   workspace_id = each.value
-# }
 
 #-------------
 
