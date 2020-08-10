@@ -46,3 +46,12 @@ resource "tfe_variable" "aws_session_token" {
    sensitive = true # Never Reveal this in statefiles our output
    workspace_id = each.value
 }
+
+resource "tfe_variable" "google_credentials" {
+  for_each = data.tfe_workspace_ids.create-workspaces.external_ids
+   key = "GOOGLE_CREDENTIALS"
+   value = var.GOOGLE_CREDENTIALS
+   category = "env"
+   sensitive = true # Never Reveal this in statefiles our output
+   workspace_id = each.value
+}
