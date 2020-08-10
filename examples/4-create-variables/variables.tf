@@ -1,3 +1,7 @@
+variable "prefix" {
+  description = "Terraform Organization"
+  default = "pphan"
+}
 # variable "tfe_token" {}
 # variable "oauth_token_id" {}
 variable "tfc_org" {
@@ -60,8 +64,6 @@ variable "workspace_ids" {
 
 # Team "Operations" - Access
 variable "ops_access" {
-  type = "map"
-
   default = {
     repo   = "myapp_master,myapp_dev,myapp_qa,tf-aws-standard-network"
     access = "write,read,read,read"
