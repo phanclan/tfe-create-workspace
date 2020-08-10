@@ -89,7 +89,7 @@ variable "ops_access" {
 
 # variable "gcp_project" {}
 
-variable "gcp_credentials" {}
+variable "GOOGLE_CREDENTIALS" {}
 
 # variable "aws_default_region" {}
 
