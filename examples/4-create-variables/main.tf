@@ -9,10 +9,6 @@ output "workspace_id" {
 
 output "test" {
   value = data.tfe_workspace_ids.create-workspaces.full_names
-  # value = {
-  #   for i in data.tfe_workspace_ids.create-workspaces :
-  #   i => i
-  # }
 }
 
 
