@@ -13,7 +13,7 @@ module "dns-multicloud" {
   source              = "../../modules/tfe"
   organization        = var.tfc_org
   workspace_name      = "dns-multicloud"
-  queue_all_runs      = true
+  # queue_all_runs      = true
   auto_apply          = true
   tf_version          = "0.12.29"
   # VCS Section - if you don't want VCS then comment out section below.
