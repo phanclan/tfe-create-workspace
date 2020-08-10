@@ -45,7 +45,7 @@ resource "tfe_variable" "aws-ec2-instance-dev-us-west-1_aws_session_token_variab
   value = var.AWS_SESSION_TOKEN
   category = "env"
   sensitive = true # Never Reveal this in statefiles or output
-  workspace_id = module.hashworkspace-3.workspace_id
+  workspace_id = module.workspace-3.workspace_id
 }
 
 module "workspace-4" {
