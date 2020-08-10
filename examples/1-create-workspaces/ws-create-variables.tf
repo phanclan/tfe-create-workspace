@@ -13,6 +13,7 @@ module "create-variables" {
   source              = "../../modules/tfe"
   organization        = var.tfc_org
   workspace_name      = "4-create-variables"
+  working_directory   = "examples/4-create-variables"
   queue_all_runs      = true
   auto_apply          = true
   tf_version          = "0.12.29"
@@ -20,7 +21,6 @@ module "create-variables" {
   vcs_repo  = [
     {
       vcs_repo_identifier = "phanclan/tfe-create-workspace"
-      working_directory   = "examples/4-create-variables"
       workspace_branch    = "" # default: master
       oauth_token_id      = var.oauth_token_id
     }
