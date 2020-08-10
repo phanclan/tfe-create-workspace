@@ -40,13 +40,13 @@ module "workspace-3" {
 }
 
 
-resource "tfe_variable" "aws-ec2-instance-dev-us-west-1_aws_session_token_variable" {
-  key = "AWS_SESSION_TOKEN"
-  value = var.AWS_SESSION_TOKEN
-  category = "env"
-  sensitive = true # Never Reveal this in statefiles or output
-  workspace_id = module.workspace-3.workspace_id
-}
+# resource "tfe_variable" "aws-ec2-instance-dev-us-west-1_aws_session_token_variable" {
+#   key = "AWS_SESSION_TOKEN"
+#   value = var.AWS_SESSION_TOKEN
+#   category = "env"
+#   sensitive = true # Never Reveal this in statefiles or output
+#   workspace_id = module.workspace-3.workspace_id
+# }
 
 module "workspace-4" {
   source              = "../../modules/tfe"

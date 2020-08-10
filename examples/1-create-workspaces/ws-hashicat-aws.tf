@@ -42,26 +42,26 @@ resource "tfe_variable" "hashicat-aws-prefix" {
    workspace_id = module.hashicat-aws.workspace_id
 }
 
-resource "tfe_variable" "hashicat-aws_aws_access_key_id" {
-   key = "AWS_ACCESS_KEY_ID"
-   value = var.AWS_ACCESS_KEY_ID
-   category = "env"
-   sensitive = true # Never Reveal this in statefiles or output
-   workspace_id = module.hashicat-aws.workspace_id
-}
+# resource "tfe_variable" "hashicat-aws_aws_access_key_id" {
+#    key = "AWS_ACCESS_KEY_ID"
+#    value = var.AWS_ACCESS_KEY_ID
+#    category = "env"
+#    sensitive = true # Never Reveal this in statefiles or output
+#    workspace_id = module.hashicat-aws.workspace_id
+# }
 
-resource "tfe_variable" "hashicat-aws_aws_secret_access_key" {
-   key = "AWS_SECRET_ACCESS_KEY"
-   value = var.AWS_SECRET_ACCESS_KEY
-   category = "env"
-   sensitive = true # Never Reveal this in statefiles or output
-   workspace_id = module.hashicat-aws.workspace_id
-}
+# resource "tfe_variable" "hashicat-aws_aws_secret_access_key" {
+#    key = "AWS_SECRET_ACCESS_KEY"
+#    value = var.AWS_SECRET_ACCESS_KEY
+#    category = "env"
+#    sensitive = true # Never Reveal this in statefiles or output
+#    workspace_id = module.hashicat-aws.workspace_id
+# }
 
-resource "tfe_variable" "hashicat-aws_aws_session_token_variable" {
-  key = "AWS_SESSION_TOKEN"
-  value = var.AWS_SESSION_TOKEN
-  category = "env"
-  sensitive = true # Never Reveal this in statefiles or output
-  workspace_id = module.hashicat-aws.workspace_id
-}
+# resource "tfe_variable" "hashicat-aws_aws_session_token_variable" {
+#   key = "AWS_SESSION_TOKEN"
+#   value = var.AWS_SESSION_TOKEN
+#   category = "env"
+#   sensitive = true # Never Reveal this in statefiles or output
+#   workspace_id = module.hashicat-aws.workspace_id
+# }
