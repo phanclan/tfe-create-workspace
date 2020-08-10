@@ -30,7 +30,7 @@ module "create-variables" {
 #delete this
 
 output "ws-4-create-variables_id" {
-  value = module.4-create-variables.workspace_id
+  value = module.create-variables.workspace_id
 }
 
 # Assign secrets from 1-create-workspace to workspace being created.
