@@ -9,15 +9,8 @@
 # Create Workspaces
 #------------------------------------------------------------------------------
 
-variable "create_hashicat-gcp" {
-  description = "Set to true if you want to create this workspace."
-  type        = bool
-  default     = "true"
-}
-
 module "hashicat-gcp" {
   source         = "../../modules/tfe"
-  count          = var.create_hashicat-gcp ? 1 : 0
   organization   = var.tfc_org
   workspace_name = "hashicat-gcp"
   # auto_apply          = true
@@ -38,7 +31,6 @@ output "ws-hashicat-gcp_ids" {
 }
 
 resource "tfe_variable" "prefix" {
-  count    = 1
   key      = "prefix"
   value    = var.prefix
   category = "terraform"
@@ -50,7 +42,6 @@ resource "tfe_variable" "prefix" {
 # Pass down the secrets from 1-create-workspace to
 # the job being created.
 resource "tfe_variable" "project" {
-  count        = 1
   key          = "project"
   value        = var.project
   category     = "terraform"
