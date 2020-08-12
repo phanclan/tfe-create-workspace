@@ -9,7 +9,14 @@
 # Create Workspaces
 #------------------------------------------------------------------------------
 
+variable "create_hashicat-gcp" {
+  description = "Set to true if you want to create this workspace."
+  type        = bool
+  default     = "false"
+}
+
 module "hashicat-gcp" {
+  count               = var.create_hashicat-gcp ? 1 : 0
   source              = "../../modules/tfe"
   organization        = var.tfc_org
   workspace_name      = "hashicat-gcp"
