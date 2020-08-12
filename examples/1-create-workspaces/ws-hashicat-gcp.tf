@@ -12,7 +12,7 @@
 variable "create_hashicat-gcp" {
   description = "Set to true if you want to create this workspace."
   type        = bool
-  default     = "false"
+  default     = "true"
 }
 
 module "hashicat-gcp" {
