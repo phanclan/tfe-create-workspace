@@ -16,8 +16,8 @@ variable "create_hashicat-gcp" {
 }
 
 module "hashicat-gcp" {
-  # count          = var.create_hashicat-gcp ? 1 : 0
   source         = "../../modules/tfe"
+  count          = var.create_hashicat-gcp ? 1 : 0
   organization   = var.tfc_org
   workspace_name = "hashicat-gcp"
   # auto_apply          = true
@@ -38,7 +38,7 @@ output "ws-hashicat-gcp_ids" {
 }
 
 resource "tfe_variable" "prefix" {
-  count    = 0
+  count    = 1
   key      = "prefix"
   value    = var.prefix
   category = "terraform"
