@@ -39,7 +39,7 @@ output "ws-hashicat-gcp_ids" {
 }
 
 resource "tfe_variable" "prefix" {
-  count    = var.create_hashicat-gcp ? 1 : 0
+  count    = 0
   key      = "prefix"
   value    = var.prefix
   category = "terraform"
@@ -51,7 +51,7 @@ resource "tfe_variable" "prefix" {
 # Pass down the secrets from 1-create-workspace to
 # the job being created.
 resource "tfe_variable" "project" {
-  count        = var.create_hashicat-gcp ? 1 : 0
+  count        = 1
   key          = "project"
   value        = var.project
   category     = "terraform"
