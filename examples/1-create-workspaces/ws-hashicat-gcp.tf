@@ -16,7 +16,8 @@ variable "create_hashicat-gcp" {
 }
 
 module "hashicat-gcp" {
-  count          = var.create_hashicat-gcp ? 1 : 0
+  count          = 1
+  # count          = var.create_hashicat-gcp ? 1 : 0
   source         = "../../modules/tfe"
   organization   = var.tfc_org
   workspace_name = "hashicat-gcp"
