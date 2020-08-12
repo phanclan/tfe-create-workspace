@@ -34,21 +34,24 @@ module "hashicat-gcp" {
 }
 
 output "ws-hashicat-gcp_ids" {
+  count               = var.create_hashicat-gcp ? 1 : 0
   value = module.hashicat-gcp.workspace_id
 }
 
 resource "tfe_variable" "prefix" {
-   key = "prefix"
-   value = var.prefix
-   category = "terraform"
-   # Try to Never Reveal this in statefiles our output
-   sensitive = false
-   workspace_id = module.hashicat-gcp.workspace_id
+  count               = var.create_hashicat-gcp ? 1 : 0
+  key = "prefix"
+  value = var.prefix
+  category = "terraform"
+  # Try to Never Reveal this in statefiles our output
+  sensitive = false
+  workspace_id = module.hashicat-gcp.workspace_id
 }
 
 # Pass down the secrets from 1-create-workspace to
 # the job being created.
 resource "tfe_variable" "project" {
+  count               = var.create_hashicat-gcp ? 1 : 0
    key = "project"
    value = var.project
    category = "terraform"
