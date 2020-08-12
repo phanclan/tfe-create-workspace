@@ -34,7 +34,6 @@ module "hashicat-gcp" {
 }
 
 output "ws-hashicat-gcp_ids" {
-  count               = var.create_hashicat-gcp ? 1 : 0
   value = module.hashicat-gcp.workspace_id
 }
 
