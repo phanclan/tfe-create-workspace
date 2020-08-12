@@ -16,14 +16,14 @@ variable "create_hashicat-gcp" {
 }
 
 module "hashicat-gcp" {
-  count               = var.create_hashicat-gcp ? 1 : 0
-  source              = "../../modules/tfe"
-  organization        = var.tfc_org
-  workspace_name      = "hashicat-gcp"
+  count          = var.create_hashicat-gcp ? 1 : 0
+  source         = "../../modules/tfe"
+  organization   = var.tfc_org
+  workspace_name = "hashicat-gcp"
   # auto_apply          = true
-  tf_version          = "0.12.29"
+  tf_version = "0.12.29"
   # VCS Section - if you don't want VCS then comment out section below.
-  vcs_repo  = [
+  vcs_repo = [
     {
       vcs_repo_identifier = "phanclan/hashicat-gcp"
       working_directory   = ""
@@ -38,24 +38,24 @@ output "ws-hashicat-gcp_ids" {
 }
 
 resource "tfe_variable" "prefix" {
-  count               = var.create_hashicat-gcp ? 1 : 0
-  key = "prefix"
-  value = var.prefix
+  count    = var.create_hashicat-gcp ? 1 : 0
+  key      = "prefix"
+  value    = var.prefix
   category = "terraform"
   # Try to Never Reveal this in statefiles our output
-  sensitive = false
+  sensitive    = false
   workspace_id = module.hashicat-gcp.workspace_id
 }
 
 # Pass down the secrets from 1-create-workspace to
 # the job being created.
 resource "tfe_variable" "project" {
-  count               = var.create_hashicat-gcp ? 1 : 0
-   key = "project"
-   value = var.project
-   category = "terraform"
-   sensitive = false # Never Reveal this in statefiles our output
-   workspace_id = module.hashicat-gcp.workspace_id
+  count        = var.create_hashicat-gcp ? 1 : 0
+  key          = "project"
+  value        = var.project
+  category     = "terraform"
+  sensitive    = false # Never Reveal this in statefiles our output
+  workspace_id = module.hashicat-gcp.workspace_id
 }
 
 # resource "tfe_variable" "google_credentials" {
