@@ -10,15 +10,15 @@
 #------------------------------------------------------------------------------
 
 module "create-variables" {
-  source              = "../../modules/tfe"
-  organization        = var.tfc_org
-  workspace_name      = "4-create-variables"
-  working_directory   = "examples/4-create-variables"
-  queue_all_runs      = true
-  auto_apply          = true
-  tf_version          = "0.12.29"
+  source            = "../../modules/tfe"
+  organization      = var.tfc_org
+  workspace_name    = "4-create-variables"
+  working_directory = "examples/4-create-variables"
+  queue_all_runs    = true
+  auto_apply        = true
+  tf_version        = "0.12.29"
   # VCS Section - if you don't want VCS then comment out section below.
-  vcs_repo  = [
+  vcs_repo = [
     {
       vcs_repo_identifier = "phanclan/tfe-create-workspace"
       workspace_branch    = "" # default: master

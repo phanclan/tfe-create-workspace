@@ -10,14 +10,14 @@
 #------------------------------------------------------------------------------
 
 module "dns-multicloud" {
-  source              = "../../modules/tfe"
-  organization        = var.tfc_org
-  workspace_name      = "dns-multicloud"
+  source         = "../../modules/tfe"
+  organization   = var.tfc_org
+  workspace_name = "dns-multicloud"
   # queue_all_runs      = true
-  auto_apply          = true
-  tf_version          = "0.12.29"
+  auto_apply = true
+  tf_version = "0.12.29"
   # VCS Section - if you don't want VCS then comment out section below.
-  vcs_repo  = [
+  vcs_repo = [
     {
       vcs_repo_identifier = "phanclan/dns-multicloud"
       working_directory   = ""

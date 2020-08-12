@@ -10,14 +10,14 @@
 #------------------------------------------------------------------------------
 
 module "hashicat-aws" {
-  source              = "../../modules/tfe"
-  organization        = var.tfc_org
-  workspace_name      = "hashicat-aws"
-  queue_all_runs      = true
-  auto_apply          = true
-  tf_version          = "0.12.29"
+  source         = "../../modules/tfe"
+  organization   = var.tfc_org
+  workspace_name = "hashicat-aws"
+  queue_all_runs = true
+  auto_apply     = true
+  tf_version     = "0.12.29"
   # VCS Section - if you don't want VCS then comment out section below.
-  vcs_repo  = [
+  vcs_repo = [
     {
       vcs_repo_identifier = "phanclan/hashicat-aws"
       working_directory   = ""
@@ -35,11 +35,11 @@ output "ws-hashicat-aws_id" {
 
 # Assign secrets from 1-create-workspace to workspace being created.
 resource "tfe_variable" "hashicat-aws-prefix" {
-   key = "prefix"
-   value = var.prefix
-   category = "terraform"
-   sensitive = false # Never Reveal this in statefiles or output
-   workspace_id = module.hashicat-aws.workspace_id
+  key          = "prefix"
+  value        = var.prefix
+  category     = "terraform"
+  sensitive    = false # Never Reveal this in statefiles or output
+  workspace_id = module.hashicat-aws.workspace_id
 }
 
 # resource "tfe_variable" "hashicat-aws_aws_access_key_id" {

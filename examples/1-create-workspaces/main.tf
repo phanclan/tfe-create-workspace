@@ -10,10 +10,10 @@
 #------------------------------------------------------------------------------
 
 module "workspace-2" {
-  source              = "../../modules/tfe"
-  organization        = var.tfc_org
-  workspace_name      = "gcp-compute-instance-dev-us-west-1"
-  tf_version          = "0.11.14"
+  source         = "../../modules/tfe"
+  organization   = var.tfc_org
+  workspace_name = "gcp-compute-instance-dev-us-west-1"
+  tf_version     = "0.11.14"
   vcs_repo = [
     {
       vcs_repo_identifier = "phanclan/gcp-compute-instance"
@@ -25,10 +25,10 @@ module "workspace-2" {
 }
 
 module "workspace-3" {
-  source              = "../../modules/tfe"
-  organization        = var.tfc_org
-  workspace_name      = "aws-ec2-instance-dev-us-west-1"
-  tf_version          = "0.12.29"
+  source         = "../../modules/tfe"
+  organization   = var.tfc_org
+  workspace_name = "aws-ec2-instance-dev-us-west-1"
+  tf_version     = "0.12.29"
   vcs_repo = [
     {
       vcs_repo_identifier = "phanclan/aws-ec2-instance"
@@ -49,12 +49,12 @@ module "workspace-3" {
 # }
 
 module "workspace-4" {
-  source              = "../../modules/tfe"
-  organization        = var.tfc_org
-  workspace_name      = "aws-ec2-instance-prod-us-west-1"
-  tf_version          = "0.12.29"
+  source         = "../../modules/tfe"
+  organization   = var.tfc_org
+  workspace_name = "aws-ec2-instance-prod-us-west-1"
+  tf_version     = "0.12.29"
   # VCS Section - if you don't want VCS then comment out section below.
-  vcs_repo  = [
+  vcs_repo = [
     {
       vcs_repo_identifier = "phanclan/aws-ec2-instance"
       working_directory   = ""
