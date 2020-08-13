@@ -3,7 +3,7 @@ variable "prefix" {
   default = "pphan"
 }
 # variable "tfe_token" {}
-# variable "oauth_token_id" {}
+variable "oauth_token_id" {}
 variable "tfc_org" {
   description = "Terraform Organization"
   default = "pphan"
@@ -15,9 +15,10 @@ variable "tfc_org" {
 # from the VCS repo name we attempt to connect to.
 variable "workspace_ids" {
   description = "Name of workspaces we want to modify."
-  default = [
-    "1-create-workspaces",
-  ]
+  # default = [
+  #   "1-create-workspaces",
+  #   "dns-multicloud",
+  # ]
   # default = [
   #   "ADMIN-tfe-policies-example",
   #   "myapp_master",

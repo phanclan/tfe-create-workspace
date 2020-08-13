@@ -14,7 +14,7 @@ module "create-variables" {
   organization      = var.tfc_org
   workspace_name    = "4-create-variables"
   working_directory = "examples/4-create-variables"
-  queue_all_runs    = true
+  queue_all_runs    = false
   auto_apply        = true
   tf_version        = "0.12.29"
   # VCS Section - if you don't want VCS then comment out section below.

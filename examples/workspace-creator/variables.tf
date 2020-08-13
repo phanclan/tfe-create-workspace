@@ -19,3 +19,4 @@ variable payg_subscription_client_secret {
 variable "GOOGLE_CREDENTIALS" { default = "CHANGEME" }
 variable "AWS_ACCESS_KEY_ID" { default = "CHANGEME"}
 variable "AWS_SECRET_ACCESS_KEY" { default = "CHANGEME"}
+variable "AWS_SESSION_TOKEN" { default = "CHANGEME"}

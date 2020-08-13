@@ -83,11 +83,19 @@ resource "tfe_variable" "aws_access_key_id" {
 }
 
 resource "tfe_variable" "aws_secret_access_key" {
-   key = "AWS_SECRET_ACCESS_KEY"
-   value = var.AWS_SECRET_ACCESS_KEY
-   category = "terraform"
-   sensitive = true # Never Reveal this in statefiles our output
-   workspace_id = tfe_workspace.workspace.id
+  key = "AWS_SECRET_ACCESS_KEY"
+  value = var.AWS_SECRET_ACCESS_KEY
+  category = "terraform"
+  sensitive = true # Never Reveal this in statefiles our output
+  workspace_id = tfe_workspace.workspace.id
+}
+
+resource "tfe_variable" "aws_session_token" {
+  key = "AWS_SESSION_TOKEN"
+  value = var.AWS_SESSION_TOKEN
+  category = "terraform"
+  sensitive = true # Never Reveal this in statefiles our output
+  workspace_id = tfe_workspace.workspace.id
 }
 
 #
