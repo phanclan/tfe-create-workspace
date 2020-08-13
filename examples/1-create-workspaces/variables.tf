@@ -2,6 +2,7 @@ variable "tfc_org" {
   default = "pphan"
 }
 
+variable "workspace_ids" {}
 variable "queue_all_runs" { default = "false" }
 variable "oauth_token_id" {}
 variable "prefix" { default = "pphan" }

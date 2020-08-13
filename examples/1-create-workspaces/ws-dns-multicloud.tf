@@ -27,8 +27,6 @@ module "dns-multicloud" {
   ]
 }
 
-#delete this
-
 output "ws-dns-multicloud_id" {
   value = module.dns-multicloud.workspace_id
 }
