@@ -19,8 +19,8 @@ resource tfe_workspace workspace {
     }
 }
 #
-# These are only needed by the workspace creator and are not
-# passed down to the individual workspaces
+# These are needed by the workspace creator and are not
+# passed down to the created workspaces
 resource tfe_variable organization_name {
    key = "tfc_org"
    value = var.tfc_org
@@ -43,34 +43,26 @@ resource tfe_variable tfe_token {
    workspace_id = tfe_workspace.workspace.id
 }
 
+#------------------------------------------------------------------------------
 
-# Add the secrets that the workspace creator needs to pass to child jobs
+# Add the secrets that 1-create-workspaces needs to pass to child jobs
 # I'm going to show a copule of methods to pass secrets into
 # the child projects.  All of these are a bit makeshift and
 # have various issues, but they get you by without a secret
 # keeper.
 
+# Pass Variables Through
 #
-# Method 1: Passing Variables Through
-#
-# We load this secret into the master job.  Each workspace creator
-# (eg: worspace-specs/ws-demo1.tf) needs to transfer
-# the secrets it wants into the workspace it's creating.
-#
-# resource tfe_variable aks_client_secret {
-#    key = "payg_subscription_client_secret"
-#    value = var.payg_subscription_client_secret
-#    category = "terraform"
-#    # prevents the web site from showing the value.
-#    sensitive = true
-#    workspace_id = tfe_workspace.workspace.id
-# }
+# We load these secrets into 1-create-workspaces.
+# Each workspace that gets created will use these as tfvars k/v pairs.
+# They are tf vars here, but env vars in the created workspaces.
+
 resource "tfe_variable" "google_credentials" {
    key = "GOOGLE_CREDENTIALS"
    value = var.GOOGLE_CREDENTIALS
    category = "terraform"
-   # Try to Never Reveal this in statefiles our output
-   sensitive = true
+   # Try to
+   sensitive = true # Never Reveal this in statefiles our output
    workspace_id = tfe_workspace.workspace.id
 }
 
@@ -78,7 +70,7 @@ resource "tfe_variable" "aws_access_key_id" {
    key = "AWS_ACCESS_KEY_ID"
    value = var.AWS_ACCESS_KEY_ID
    category = "terraform"
-   sensitive = false # Never Reveal this in statefiles our output
+   sensitive = false # Reveal this verification
    workspace_id = tfe_workspace.workspace.id
 }
 
@@ -97,20 +89,3 @@ resource "tfe_variable" "aws_session_token" {
   sensitive = true # Never Reveal this in statefiles our output
   workspace_id = tfe_workspace.workspace.id
 }
-
-#
-# Method 2: Passing blobs of secrets around
-#
-# This method loads a file of secrets which the workspace creator passes
-# to the workspace being created in bulk. The downside is that you could
-# be passing secrets to jobs that don't need all of them, increasing
-# your attack surface
-# resource tfe_variable testvalues {
-#    key = "secret_bundle_1"
-#    hcl = false
-#    value = file("secret_bundle_1.hcl")
-#    category = "terraform"
-#    sensitive = true
-#    workspace_id = tfe_workspace.workspace.id
-# }
-
