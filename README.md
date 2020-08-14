@@ -3,13 +3,13 @@ The examples for this repo does four main things.
 
 1. Create workspace-creator.
 2. Create workspaces for your org.
-	* dns-multicloud
-	* hashicat-aws
-	* hashicat-gcp
-	* gcp-compute-instance-dev-us-west-1
-	* aws-ec2-instance-dev-us-west-1
-	* aws-ec2-instance-prod-us-west-1
-2. Create teams for your org.
+	1. dns-multicloud
+	2. hashicat-aws
+	3. hashicat-gcp
+	4. gcp-compute-instance-dev-us-west-1
+	5. aws-ec2-instance-dev-us-west-1
+	6. aws-ec2-instance-prod-us-west-1
+3. Create teams for your org.
 	* dev, ops, network, security
 3. Assigns teams for your org.
 4. Create/update variables for your created workspaces
@@ -92,14 +92,15 @@ export TF_VAR_oauth_token_id=$oauth_token_id
 
 Change the azure and google credential value as needed.
 
-## 🟢 Workspace Creator
+
+# 🟢 Workspace Creator
 * Go to `tfe-create-workspace/examples/workspace-creator` directory.
 
 ```
 cd tfe-create-workspace/examples/workspace-creator
 ```
 
-* Deploy. Initialize and apply with terraform.
+* Deploy workspace create to TFC. Initialize and apply with terraform.
 
 ```
 terraform init -upgrade
@@ -118,7 +119,10 @@ Error: Error retrieving workspace ws-X27MEevtKdVrmX4y: resource not found
 
 ## Verification
 * Make sure you see a new workspace in TFC called: `1-create-workspaces`
-*
+* You should also see all the workspaces that we mentioned above.
+* `dns-multicloud` and `hashicat-aws` should be running a plan. They were configured to queue a plan on creation.
+	* These runs will error out, which is expected. The cloud variables have not been applied, yet.
+
 
 - - - -
 
@@ -144,7 +148,6 @@ cd  examples/1-create-workspaces
 
 * Replace variable default for `tfc_org`.
 
-We need a module for each workspace we want to create. Two are provided for example. One with VCS connection and one without VCS connection
 
 ## Cloud Credentials
 Modify list of workspaces you want to apply cloud credentials to. The workspace_ids variable contains the list of workspaces that we will create credential variables for.
@@ -157,7 +160,8 @@ workspace_ids = [
 "hashicat-aws",
 ]
 ```
-* I will add two more.
+
+* I will add two more to the list.
 ```
 workspace_ids = [
 "dns-multicloud",
@@ -176,20 +180,26 @@ git commit -am "update" && git push
 
 
 ## Verification
-* Confirm that your git commit triggered a VCS run in TFC for `1-create-workspaces`.
-
-* Confirm that “`dns-multicloud`” has a plan queued automatically.
-	* This is caused by our new Run Triggers functionality.
+* Confirm that your new workspaces have the desired cloud credentials.
+	* TFC UI: **<WORKSPACE>** > **Variables** > **Environment Variables** section
+	* Ex. AWS, Google, Azure
+* Confirm that your git commit triggered a VCS run in TFC for `1-create-workspaces` and that it **Applied** successfully.
+* Confirm that "`dns-multicloud`" has a plan queued automatically.
+	* Status of **NEEDS CONFIRMATION**.
+	* This is caused by our new **Run Triggers** functionality.
 	* `1-create-workspaces` is designated as a source workspace. When it finishes an apply, then a plan is queued for all linked workspaces.
-* Approve the apply. Click **Confirm & Apply**.
+* Approve the apply. Click **Confirm & Apply**. Then, click **Confirm Plan**.
 
-* Confirm that “hashicat-aws” has a plan queued automatically.
+* Confirm that `hashicat-aws` has a plan queued automatically.
+	* Status of **NEEDS CONFIRMATION**.
 	* `dns-multicloud` is designated as a source workspace for `hashicat`. When it finishes an apply, then a plan is queued for all linked workspaces.
-* Approve the apply. Click **Confirm & Apply**.
+* Approve the apply. Click **Confirm & Apply**. Then, click **Confirm Plan**.
 
 
 ## Create a new workspace
-* To create a new workspace. Create a new .tf file inside 1-create-workspaces or add to an existing one the following info.
+We need a module for each workspace we want to create. Several are provided for example. One with VCS connection and one without VCS connection
+
+* To create a new workspace. Create a new `.tf `file inside `1-create-workspaces` or add to an existing `.tf` file the following info.
 	* Provide values for:
 		* `workspace_name`
 		* `tf_version`.
@@ -233,9 +243,9 @@ git commit -am "update" && git push
 
 
 ## Verification
-* Confirm that your git commit triggered a VCS run in TFC.
-
-
+* Confirm that your git commit triggered a VCS run in TFC for 1-create-workspaces.
+* Confirm that your new workspace was created.
+* NOTE: You need run the create twice. Once to create the new workspace. And, again to apply the variables.
 
 🛑 At this point, I usually skip to Step 4. If you want to create and assign teams, then go to the next step.
 
@@ -313,30 +323,27 @@ There are no outputs configured for this module.
 
 I use a portal to gain temporary access to our AWS environment. This poses some interesting challenges when Terraform Cloud workspaces are tied to these temporary permissions.
 
-To workaround this, I use the  `workspace-creator` to set cloud credential terraform variables in `1-create-workspaces`. There are a few key steps.
+To workaround this, I use the  `workspace-creator` to set cloud credential terraform variables in `1-create-workspaces`. Whenever credentials change, I load them into my local machine's env vars, and then push it out with with terraform.
 
-1. Use a script to set the values for the variables in the `4-create-variables` workspace.
-2. Use `tfe_variable` resources
-	1. tied to workspace data source (`tfe_workspace_ids`)
-	2. which is to a variable list (`workspace_ids`) to assign cloud credentials to my other workspaces.
 
-### Detailed Steps
-* Create the `4-create-variables` workspace.
-	* I added a `ws-create-variables.tf` file into `1-create-workspaces` project.
-	* This will create a new workspace called `4-create-variables`.
-		* Triggers `plan` upon `git commit`.
-	* The workspace is VCS tied to
-		* Repo: `phanclan/tfe-create-workspace`
-		* Working Directory: `examples/4-create-variables`
-* Set cloud credentials
-	* Set variables in this workspace using terraform-guides variable script.
-	* **Option 1**: I use the `tfe_variable` resource to set these.
+## Who's doing the work?
+
+* `create-variables.tf` contains all `tfe_variable` resource definitions.
+* The resource uses a `for_each` loop to determine which workspaces to  create the variable for.
+* The `create_workspaces` data source uses a list to determine which workspaces it should provide `workspace_ids` for.
+* The list is provided by the `workspace_ids` variable, which you modified earlier.
+
+
+## Detailed Steps
 
 * From local machine, go to `workspace-creator` folder
 
 ```
 cd ../workspace-creator
 ```
+
+
+### Update the creator
 
 * Export `TF_VAR` variables with new credentials.
 
@@ -355,10 +362,15 @@ export TF_VAR_oauth_token_id=$oauth_token_id
 terraform apply
 ```
 
-* Set `workspace_ids` variable.
+
+### Push the changes to the children
+
+* Tell **workspace creator** which workspaces it should create variables for.
+	* Currently, using `terraform.auto.tfvars` files.
 	* Edit `terraform.auto.tfvars` file.
-	* dns-multicloud and hashicat-aws should already be part of the list.
-	* Add "hashicat-gcp" to the list.
+	* Set value for `workspace_ids`. This is a list of all the workspaces I want to apply these variables to.
+	* `dns-multicloud` and `hashicat-aws` should already be part of the list.
+	* Add "`hashicat-gcp`" to the list.
 * Queue up a plan for `1-create-workspaces` with git.
 
 ```
@@ -366,45 +378,42 @@ git commit -am "update" && git push
 ```
 
 * Your new values will now be pushed to other workspaces.
-* Tell workspace which workspaces it should create variables for.
-	* Currently, using `terraform.auto.tfvars` files.
-	* Set value for `workspace_ids`. This is a list of all the workspaces I want to apply these variables to.
-	* At a minimum, I add the following:
-		* `dns-multicloud` - so my projects have a DNS zone
-		* `hashicat-aws` - my go to demo.
-* Push the changes out
 
-```
-git commit "update" && git push
-```
-
-GCP only allows `-` and `_` symbols in their tags, and an email address contains `@` and `.`.
-Information on  [GCP label format limits](https://cloud.google.com/compute/docs/labeling-resources#label_format)
-
-Enable Cloud DNS API
-https://console.developers.google.com/apis/api/dns.googleapis.com/overview?project=449803287135
 
 - - - -
 
-## What's Next?
 
-You can set variables for your workspaces
-
-## Destroy changes
-
+# Destroy changes
 To destroy everything, go in reverse.
+
+* Queue destroy plan for workspaces that you created and applied.
+
+```
+UI: Workspace > Settings > Desstruction and Deletion > Queue destroy plan
+```
+
+* Queue destroy plan for team workspaces and assignment that you created and applied.
+
 ```
 cd ../3-assign-teams/ && terraform destroy
 ```
 
-Remove teams that we created.
+* Remove teams that we created.
+
 ```
 cd ../2-create-teams/ && terraform destroy
 ```
 
-Remove workspaces that we created.
+* Remove workspaces that we created.
+
 ```
 cd ../1-create-workspaces/ && terraform destroy
+```
+
+* Destroy the workspace-create.
+
+```
+cd ../workspace-creator/ && terraform destroy
 ```
 
 
@@ -427,5 +436,5 @@ We specify the versions for providers and terraform client here.
 
 # To Do
 
-* Add an example to create workspaces for the steps above.
+* Add an example to create workspaces for the steps above. - done
 * Break out the outputs and variables into their own files for each step.
