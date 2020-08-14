@@ -51,3 +51,12 @@ resource "tfe_variable" "google_credentials" {
   sensitive = true # Never Reveal this in statefiles our output
   workspace_id = each.value
 }
+
+resource "tfe_variable" "azure_access_key_id" {
+  for_each = data.tfe_workspace_ids.create-workspaces.external_ids
+  key = "AZURE"
+  value = var.AWS_ACCESS_KEY_ID
+  category = "env"
+  sensitive = false
+  workspace_id = each.value
+}
