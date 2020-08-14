@@ -5,5 +5,5 @@ workspace_ids = [
   # "aws-ec2-instance-dev-us-west-1", #test
   # "aws-ec2-instance-prod-us-west-1", #test
   # "aws-ec2-instance-dev-us-west-1", #test
-  "gcp-compute-instance-dev-us-west-1", #test
+  # "gcp-compute-instance-dev-us-west-1", #test
 ]
