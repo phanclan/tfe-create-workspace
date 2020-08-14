@@ -1,22 +1,23 @@
 resource tfe_workspace workspace {
-    # The Name of the workspace to create in Terraform Cloud
-    name = "1-create-workspaces"
-    # The directory (in this repo) where the  workspace
-    # starts runing. Workspace-specs is the folder
-    # where we keep all of our workspaces.
-    working_directory = "examples/1-create-workspaces"
-    organization = var.tfc_org
-    terraform_version = "0.12.29"
+  # The Name of the workspace to create in Terraform Cloud
+  name = "1-create-workspaces"
+  # The directory (in this repo) where the  workspace
+  # starts runing. Workspace-specs is the folder
+  # where we keep all of our workspaces.
+  working_directory = "examples/1-create-workspaces"
+  organization = var.tfc_org
+  auto_apply     = true
+  terraform_version = "0.12.29"
 
-    # The connection to Git must be configured in
-    # terraform cloud first. The oauth_token_id
-    # specifies which VCS connection to use for this
-    # workspace.
-    vcs_repo  {
-        identifier = "phanclan/tfe-create-workspace"
-        oauth_token_id = var.oauth_token_id
-        branch = "master"
-    }
+  # The connection to Git must be configured in
+  # terraform cloud first. The oauth_token_id
+  # specifies which VCS connection to use for this
+  # workspace.
+  vcs_repo  {
+      identifier = "phanclan/tfe-create-workspace"
+      oauth_token_id = var.oauth_token_id
+      branch = "master"
+  }
 }
 #
 # These are needed by the workspace creator and are not

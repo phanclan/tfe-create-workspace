@@ -27,7 +27,10 @@ module "hashicat-aws" {
   ]
 }
 
-#delete this
+resource "tfe_run_trigger" "hashicat-aws_trigger" {
+  workspace_id  = module.hashicat-aws.workspace_id
+  sourceable_id = module.dns-multicloud.workspace_id
+}
 
 output "ws-hashicat-aws_id" {
   value = module.hashicat-aws.workspace_id
