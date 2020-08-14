@@ -28,7 +28,7 @@ module "dns-multicloud" {
 }
 
 data "tfe_workspace" "ws-create-workspaces" {
-  names        = "1-create-workspaces"
+  name        = "1-create-workspaces"
   organization = var.tfc_org
 }
 
