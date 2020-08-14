@@ -49,6 +49,7 @@ resource "tfe_variable" "project" {
   workspace_id = module.hashicat-gcp.workspace_id
 }
 
+#--- This will be provided by create-variables.tf
 # resource "tfe_variable" "google_credentials" {
 #    key = "GOOGLE_CREDENTIALS"
 #    value = var.GOOGLE_CREDENTIALS
