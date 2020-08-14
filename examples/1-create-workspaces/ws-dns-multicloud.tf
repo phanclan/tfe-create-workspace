@@ -27,6 +27,16 @@ module "dns-multicloud" {
   ]
 }
 
+data "tfe_workspace_ids" "create-workspaces" {
+  names        = [1-create-workspaces]
+  organization = var.tfc_org
+}
+
+resource "tfe_run_trigger" "dns-multicloud_trigger" {
+  workspace_id  = module.dns-multicloud.workspace_id
+  sourceable_id = module.dns-multicloud.workspace_id
+}
+
 output "ws-dns-multicloud_id" {
   value = module.dns-multicloud.workspace_id
 }
