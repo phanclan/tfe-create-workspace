@@ -51,5 +51,5 @@ resource "tfe_variable" "google_credentials" {
   category = "env"
   sensitive = true # Never Reveal this in statefiles our output
   workspace_id = each.value
-  depends_on   = [ module.dns-multicloud ]
+  depends_on   = [ data.tfe_workspace_ids.create-workspaces ]
 }
