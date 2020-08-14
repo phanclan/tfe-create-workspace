@@ -1,7 +1,7 @@
 data "tfe_workspace_ids" "create-workspaces" {
   names        = var.workspace_ids
   organization = var.tfc_org
-  depends_on   = [ module.dns-multicloud ]
+  # depends_on   = [ module.dns-multicloud ]
 }
 
 output "workspace_id" {
@@ -46,9 +46,10 @@ resource "tfe_variable" "aws_session_token" {
 
 resource "tfe_variable" "google_credentials" {
   for_each = data.tfe_workspace_ids.create-workspaces.external_ids
-   key = "GOOGLE_CREDENTIALS"
-   value = var.GOOGLE_CREDENTIALS
-   category = "env"
-   sensitive = true # Never Reveal this in statefiles our output
-   workspace_id = each.value
+  key = "GOOGLE_CREDENTIALS"
+  value = var.GOOGLE_CREDENTIALS
+  category = "env"
+  sensitive = true # Never Reveal this in statefiles our output
+  workspace_id = each.value
+  depends_on   = [ module.dns-multicloud ]
 }
