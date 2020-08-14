@@ -1,7 +1,11 @@
 data "tfe_workspace_ids" "create-workspaces" {
   names        = var.workspace_ids
   organization = var.tfc_org
-  depends_on   = [module.dns-multicloud]
+  # depends_on   = [module.dns-multicloud] # Need to fix. Get following error
+# The "for_each" value depends on resource attributes that cannot be determined
+# until apply, so Terraform cannot predict how many instances will be created.
+# To work around this, use the -target argument to first apply only the
+# resources that the for_each depends on.
 }
 
 output "workspace_id" {
