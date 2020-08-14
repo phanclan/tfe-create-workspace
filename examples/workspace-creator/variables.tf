@@ -3,20 +3,33 @@ variable tfc_org {
     default = "pphan"
 }
 variable oauth_token_id {
-    description = "Go to TFC site-> Organization-> Settings-> VCS Providers. Copy the Oauth Token ID"
+    description = "Go to TFC > Organization > Settings > VCS Providers. Copy Oauth Token ID"
 }
 variable tfe_token {
     description = "Token to Log into TFC. Go to https://app.terraform.io/app/settings/tokens and generate a token."
 }
 
-#
-# These are demonstration secrets that we put into the Job Creator Job
-# It allows the job creator to pass out secrets to jobs it creates.
-#
+#------------------------------------------------------------------------------
+
+# These are pass thru secrets that we put into 1-create-workspaces.
+# It allows the workspace creator to pass out secrets to workspace it creates.
+
 variable payg_subscription_client_secret {
     description = "AKS Client Secret Key"
 }
-variable "GOOGLE_CREDENTIALS" { default = "CHANGEME" }
-variable "AWS_ACCESS_KEY_ID" { default = "CHANGEME"}
-variable "AWS_SECRET_ACCESS_KEY" { default = "CHANGEME"}
-variable "AWS_SESSION_TOKEN" { default = "CHANGEME"}
+variable "GOOGLE_CREDENTIALS" {
+    description = "GCP Credentials"
+    default = "CHANGEME"
+}
+variable "AWS_ACCESS_KEY_ID" {
+    description = "Grab from env vars or $HOME/.aws/credentials"
+    default = "CHANGEME"
+}
+variable "AWS_SECRET_ACCESS_KEY" {
+    description = "Grab from env vars or $HOME/.aws/credentials"
+    default = "CHANGEME"
+}
+variable "AWS_SESSION_TOKEN" {
+    description = "Grab from env vars or $HOME/.aws/credentials"
+    default = "CHANGEME"
+}
