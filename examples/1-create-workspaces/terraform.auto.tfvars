@@ -3,12 +3,7 @@ workspace_ids = [
   "hashicat-aws",
   # "hashicat-gcp", # test
   # "aws-ec2-instance-dev-us-west-1", #test
+  # "aws-ec2-instance-prod-us-west-1", #test
+  # "aws-ec2-instance-dev-us-west-1", #test
+  "gcp-compute-instance-dev-us-west-1", #test
 ]
-# workspace_ids = [
-#   "1-create-workspaces",
-#   "4-create-variables",
-#   "dns-multicloud",
-#   "hashicat-aws",
-#   "hashicat-gcp",
-#   "aws-ec2-instance-dev-us-west-1",
-# ]

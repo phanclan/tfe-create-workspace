@@ -21,14 +21,14 @@ The examples for this repo does four main things.
 
 - - - -
 
-# Step 0. Pre-requisites
+# 🟢 Step 0. Pre-requisites
 
 * You will need access to TFC or TFE.
-* You will need to have an TF organization created.
-* You will need a user account with admin privileges to your TF organization.
-* You will need to add two users to your organization to represent a dev person and an ops person.
-* Create a TF user token using `terraform login` or create a `$HOME/.terraformrc` file with your admin user token.
-* Connect your TF Org to a VCS Provider.
+	* You will need to have an TF organization created.
+	* You will need a user account with admin privileges to your TF organization.
+	* You will need to add two users to your organization to represent a dev person and an ops person.
+	* Create a TF user token using `terraform login` or create a `$HOME/.terraformrc` file with your admin user token.
+	* Connect your TF Org to a VCS Provider.
 * Need repos for (which you can fork from github.com/phanclan)
 	* dns-multicloud
 	* hashicat-aws
@@ -45,7 +45,7 @@ git clone https://github.com/phanclan/tfe-create-workspace.git
 
 ``` shell
 export TF_ADDR=https://app.terraform.io
-export ORG=pphan
+export ORG=pphan && export TF_VAR_tfc_org=$ORG
 
 # if terraformrc exists, use it. else look for credentials.tfrc.json.
 if [ -f $HOME/.terraformrc ]; then
@@ -57,23 +57,31 @@ else
   exit
 fi
 
+# Your jq filter might need to be different based on VCS provider order
 export oauth_token_id=$(curl -s -H "Authorization: Bearer $TFE_TOKEN" $TF_ADDR/api/v2/organizations/$ORG/oauth-tokens | \
   jq -r '.data | .[1].id')
 
 # The following is needed for workspace-creator
 export TF_VAR_tfe_token=$TFE_TOKEN
+
 # Next line is redundant
 #export TF_VAR_tfe_token=$(grep token ~/.terraformrc | cut -d '"' -f2)
 ```
 
-* Populate Cloud Credentials.
+> For the `oauth_token_id`, I specified `.[1]` in my `jq` filter. I have two VCS providers, and the one I work with the most is the second one. You might need to specify `.[0]` or some other value.
+
+* Export credentials from Doormat
 
 ``` shell
 # export variables from doormat
 export AWS_ACCESS_KEY_ID=<access_key_id>
 export AWS_SECRET_ACCESS_KEY=<secret_access_key>
 export AWS_SESSION_TOKEN=<session_token>
+```
 
+* Populate Cloud Credentials.
+
+```shell
 # set TF variables.
 export TF_VAR_AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 export TF_VAR_AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
@@ -82,22 +90,54 @@ export TF_VAR_GOOGLE_CREDENTIALS=$(cat $HOME/.gcp/CRED_FILE.json.test)
 export TF_VAR_oauth_token_id=$oauth_token_id
 ```
 
-Change the google credential value as needed.
+Change the azure and google credential value as needed.
 
-## Workspace Creator
+## 🟢 Workspace Creator
+* Go to `tfe-create-workspace/examples/workspace-creator` directory.
+
+```
+cd tfe-create-workspace/examples/workspace-creator
+```
+
+* Deploy. Initialize and apply with terraform.
+
+```
+terraform init -upgrade
+terraform apply
+```
+
+I use `-upgrade` to make sure I get the latest version of the providers. This may not be appropriate for you.
+
+> 💡NOTE: There is a TFE provider bug. If you’ve deployed this workspace before, and then deleted it from the UI manually, you will get the following error.
+
+```
+Error: Error retrieving workspace ws-X27MEevtKdVrmX4y: resource not found
+```
+
+> To resolve this, I delete my `terraform.tfstate` file and `apply` again.
+
+## Verification
+* Make sure you see a new workspace in TFC called: `1-create-workspaces`
+*
 
 - - - -
 
-# Step 1. Create Workspaces
+# 🟢 Step 1. Create Workspaces
+
 This example creates several workspaces.
 
-* Workspaces
-	* hashicat-aws
-	* gcp-compute-instance-dev-us-west-1
-	* aws-ec2-instance-dev-us-west-1
-	* aws-ec2-instance-prod-us-west-1
+1. dns-multicloud
+2. hashicat-aws
+3. hashicat-gcp
+4. gcp-compute-instance-dev-us-west-1
+5. aws-ec2-instance-dev-us-west-1
+6. aws-ec2-instance-prod-us-west-1
 
-* Go **1-create-workspaces** folder.
+Once `1-create-workspaces` is created it will automatically do a VCS triggered run.
+
+> 🛑 NOTE: Many of example workspaces already have defaults defined either in the variable definition or through an `*.auto.tfvars` file. Plain `.tfvars` files are ignored by TFC. However, `auto.tfvars` are processed. You will need to specify your specific information for those workspace, which is not covered here.
+
+* Go to **1-create-workspaces** folder.
 ```
 cd  examples/1-create-workspaces
 ```
@@ -106,7 +146,50 @@ cd  examples/1-create-workspaces
 
 We need a module for each workspace we want to create. Two are provided for example. One with VCS connection and one without VCS connection
 
-* For each module, do the following:
+## Cloud Credentials
+Modify list of workspaces you want to apply cloud credentials to. The workspace_ids variable contains the list of workspaces that we will create credential variables for.
+
+* Edit `terraform.auto.tfvars`
+* Modify the `workspace_ids` value. It currently has dns-multicloud and hashicat-aws.
+```
+workspace_ids = [
+"dns-multicloud",
+"hashicat-aws",
+]
+```
+* I will add two more.
+```
+workspace_ids = [
+"dns-multicloud",
+"hashicat-aws",
+"hashicat-gcp",
+"aws-ec2-instance-dev-us-west-1",
+]
+```
+
+* Commit and push changes.
+```
+git commit -am "update" && git push
+```
+
+* This will cause the workspace creator to set the variables on the designated workspaces.
+
+
+## Verification
+* Confirm that your git commit triggered a VCS run in TFC for `1-create-workspaces`.
+
+* Confirm that “`dns-multicloud`” has a plan queued automatically.
+	* This is caused by our new Run Triggers functionality.
+	* `1-create-workspaces` is designated as a source workspace. When it finishes an apply, then a plan is queued for all linked workspaces.
+* Approve the apply. Click **Confirm & Apply**.
+
+* Confirm that “hashicat-aws” has a plan queued automatically.
+	* `dns-multicloud` is designated as a source workspace for `hashicat`. When it finishes an apply, then a plan is queued for all linked workspaces.
+* Approve the apply. Click **Confirm & Apply**.
+
+
+## Create a new workspace
+* To create a new workspace. Create a new .tf file inside 1-create-workspaces or add to an existing one the following info.
 	* Provide values for:
 		* `workspace_name`
 		* `tf_version`.
@@ -117,18 +200,48 @@ We need a module for each workspace we want to create. Two are provided for exam
 		* `oauth_token_id`
 			* Provide either through a `terraform.tfvars` file or in an environmental variable see Pre-reqs:
 
-Initialize and apply.
+Sample - Replace `<NAME>` with your own value.
 ```
-terraform init -upgrade
-terraform apply
+module "ws-<NAME>" {
+  source         = "../../modules/tfe"
+  organization   = var.tfc_org
+  workspace_name = "<NAME>"
+  queue_all_runs = false
+  auto_apply     = true
+  tf_version     = "0.12.29"
+  # VCS Section - if you don't want VCS then comment out section below.
+  vcs_repo = [
+    {
+      vcs_repo_identifier = "phanclan/<NAME>"
+      working_directory   = ""
+      workspace_branch    = "" # default: master
+      oauth_token_id      = var.oauth_token_id
+    }
+  ]
+}
+
+output "ws-<NAME>_id" {
+  value = module.ws-<NAME>.workspace_id
+}
 ```
 
-I use `-upgrade` to make sure I get the latest version of the providers. This may not be appropriate for you.
+* Commit and push changes.
 
+```
+git commit -am "update" && git push
+```
+
+
+## Verification
+* Confirm that your git commit triggered a VCS run in TFC.
+
+
+
+🛑 At this point, I usually skip to Step 4. If you want to create and assign teams, then go to the next step.
 
 - - - -
 
-# Step 2. Create Teams
+# 🟡 Step 2. Create Teams
 
 This will create four teams: **dev**, **ops**, **network**, **security**.
 
@@ -164,7 +277,7 @@ You should see outputs for all the `team_id`'s.
 
 - - - -
 
-# Step 3. Assign Teams
+# 🟡 Step 3. Assign Teams
 
 This will assign the four teams from step 2 (dev, ops, network, security) to workspaces created in step 1.
 
@@ -196,7 +309,7 @@ There are no outputs configured for this module.
 
 - - - -
 
-# Step 4. Create Variables
+# 🟢 Step 4. Create Variables
 
 I use a portal to gain temporary access to our AWS environment. This poses some interesting challenges when Terraform Cloud workspaces are tied to these temporary permissions.
 
@@ -236,18 +349,23 @@ export TF_VAR_GOOGLE_CREDENTIALS=$(cat $HOME/.gcp/CRED_FILE.json.test)
 export TF_VAR_oauth_token_id=$oauth_token_id
 ```
 
-* Apply changes
+* Update pass thru variables in `1-create-workspaces`.
 
 ```
 terraform apply
 ```
 
-* Queue up a plan for `workspace-creator` from TFC.
-* Your new values will now be pushed to other workspaces.
+* Set `workspace_ids` variable.
+	* Edit `terraform.auto.tfvars` file.
+	* dns-multicloud and hashicat-aws should already be part of the list.
+	* Add "hashicat-gcp" to the list.
+* Queue up a plan for `1-create-workspaces` with git.
 
-	* I don't use the `tfe_variable` resource to set these.
-	* Since my credentials change often. It is easier for me to export using the script.
-	* Alternatively, I could execute this workspace locally and use my local environmental variables.
+```
+git commit -am "update" && git push
+```
+
+* Your new values will now be pushed to other workspaces.
 * Tell workspace which workspaces it should create variables for.
 	* Currently, using `terraform.auto.tfvars` files.
 	* Set value for `workspace_ids`. This is a list of all the workspaces I want to apply these variables to.
