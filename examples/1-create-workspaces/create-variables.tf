@@ -1,6 +1,7 @@
 data "tfe_workspace_ids" "create-workspaces" {
   names        = var.workspace_ids
   organization = var.tfc_org
+  depends_on   = module.dns-multicloud
 }
 
 output "workspace_id" {
