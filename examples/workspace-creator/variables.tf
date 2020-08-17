@@ -33,3 +33,19 @@ variable "AWS_SESSION_TOKEN" {
     description = "Grab from env vars or $HOME/.aws/credentials"
     default = "CHANGEME"
 }
+variable "ARM_CLIENT_ID" {
+    description = "Grab from env vars or $HOME/.Azure/creds.txt"
+    default = "CHANGEME"
+}
+variable "ARM_CLIENT_SECRET" {
+    description = "Grab from env vars or $HOME/.Azure/creds.txt"
+    default = "CHANGEME"
+}
+variable "ARM_TENANT_ID" {
+    description = "Grab from env vars or $HOME/.Azure/creds.txt"
+    default = "CHANGEME"
+}
+variable "ARM_SUBSCRIPTION_ID" {
+    description = "Grab from env vars or $HOME/.Azure/creds.txt"
+    default = "CHANGEME"
+}

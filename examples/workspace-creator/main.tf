@@ -90,3 +90,32 @@ resource "tfe_variable" "aws_session_token" {
   sensitive = true # Never Reveal this in statefiles our output
   workspace_id = tfe_workspace.workspace.id
 }
+
+resource "tfe_variable" "arm_subscription_id" {
+  key          = "ARM_SUBSCRIPTION_ID"
+  value        = var.ARM_SUBSCRIPTION_ID
+  category     = "env"
+  sensitive    = false
+  workspace_id = tfe_workspace.workspace.id
+}
+resource "tfe_variable" "arm_client_id" {
+  key          = "ARM_CLIENT_ID"
+  value        = var.ARM_CLIENT_ID
+  category     = "env"
+  sensitive    = true
+  workspace_id = tfe_workspace.workspace.id
+}
+resource "tfe_variable" "arm_client_secret" {
+  key          = "ARM_CLIENT_SECRET"
+  value        = var.ARM_CLIENT_SECRET
+  category     = "env"
+  sensitive    = true
+  workspace_id = tfe_workspace.workspace.id
+}
+resource "tfe_variable" "arm_tenant_id" {
+  key          = "ARM_TENANT_ID"
+  value        = var.ARM_TENANT_ID
+  category     = "env"
+  sensitive    = false
+  workspace_id = tfe_workspace.workspace.id
+}

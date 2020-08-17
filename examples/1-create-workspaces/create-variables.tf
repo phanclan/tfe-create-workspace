@@ -57,11 +57,36 @@ resource "tfe_variable" "google_credentials" {
   workspace_id = each.value
 }
 
-resource "tfe_variable" "azure_access_key_id" {
+resource "tfe_variable" "arm_subscription_id" {
   for_each = data.tfe_workspace_ids.create-workspaces.external_ids
-  key = "AZURE"
-  value = var.AWS_ACCESS_KEY_ID
-  category = "env"
-  sensitive = false
+  key          = "ARM_SUBSCRIPTION_ID"
+  value        = var.arm_subscription_id
+  category     = "env"
+  sensitive    = false
+  workspace_id = each.value
+  depends_on   = ["tfe_workspace.template","tfe_workspace.cicd-template"]
+}
+resource "tfe_variable" "arm_client_id" {
+  for_each = data.tfe_workspace_ids.create-workspaces.external_ids
+  key          = "ARM_CLIENT_ID"
+  value        = var.arm_client_id
+  category     = "env"
+  sensitive    = true
+  workspace_id = each.value
+}
+resource "tfe_variable" "arm_client_secret" {
+  for_each = data.tfe_workspace_ids.create-workspaces.external_ids
+  key          = "ARM_CLIENT_SECRET"
+  value        = var.arm_client_secret
+  category     = "env"
+  sensitive    = true
+  workspace_id = each.value
+}
+resource "tfe_variable" "arm_tenant_id" {
+  for_each = data.tfe_workspace_ids.create-workspaces.external_ids
+  key          = "ARM_TENANT_ID"
+  value        = var.arm_tenant_id
+  category     = "env"
+  sensitive    = false
   workspace_id = each.value
 }
