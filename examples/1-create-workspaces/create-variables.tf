@@ -60,7 +60,7 @@ resource "tfe_variable" "google_credentials" {
 resource "tfe_variable" "arm_subscription_id" {
   for_each = data.tfe_workspace_ids.create-workspaces.external_ids
   key          = "ARM_SUBSCRIPTION_ID"
-  value        = var.arm_subscription_id
+  value        = var.ARM_SUBSCRIPTION_ID
   category     = "env"
   sensitive    = false
   workspace_id = each.value
@@ -69,7 +69,7 @@ resource "tfe_variable" "arm_subscription_id" {
 resource "tfe_variable" "arm_client_id" {
   for_each = data.tfe_workspace_ids.create-workspaces.external_ids
   key          = "ARM_CLIENT_ID"
-  value        = var.arm_client_id
+  value        = var.ARM_CLIENT_ID
   category     = "env"
   sensitive    = true
   workspace_id = each.value
@@ -77,7 +77,7 @@ resource "tfe_variable" "arm_client_id" {
 resource "tfe_variable" "arm_client_secret" {
   for_each = data.tfe_workspace_ids.create-workspaces.external_ids
   key          = "ARM_CLIENT_SECRET"
-  value        = var.arm_client_secret
+  value        = var.ARM_CLIENT_SECRET
   category     = "env"
   sensitive    = true
   workspace_id = each.value
@@ -85,7 +85,7 @@ resource "tfe_variable" "arm_client_secret" {
 resource "tfe_variable" "arm_tenant_id" {
   for_each = data.tfe_workspace_ids.create-workspaces.external_ids
   key          = "ARM_TENANT_ID"
-  value        = var.arm_tenant_id
+  value        = var.ARM_TENANT_ID
   category     = "env"
   sensitive    = false
   workspace_id = each.value
