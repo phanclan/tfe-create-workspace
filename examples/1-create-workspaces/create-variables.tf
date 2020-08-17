@@ -64,7 +64,6 @@ resource "tfe_variable" "arm_subscription_id" {
   category     = "env"
   sensitive    = false
   workspace_id = each.value
-  depends_on   = ["tfe_workspace.template","tfe_workspace.cicd-template"]
 }
 resource "tfe_variable" "arm_client_id" {
   for_each = data.tfe_workspace_ids.create-workspaces.external_ids
