@@ -11,3 +11,7 @@ variable "GOOGLE_CREDENTIALS" { default = "CHANGEME" }
 variable "AWS_ACCESS_KEY_ID" { default = "CHANGEME" }
 variable "AWS_SECRET_ACCESS_KEY" { default = "CHANGEME" }
 variable "AWS_SESSION_TOKEN" { default = "CHANGEME" }
+variable "ARM_CLIENT_ID" { default = "CHANGEME" }
+variable "ARM_CLIENT_SECRET" { default = "CHANGEME" }
+variable "ARM_TENANT_ID" { default = "CHANGEME" }
+variable "ARM_SUBSCRIPTION_ID" { default = "CHANGEME" }
