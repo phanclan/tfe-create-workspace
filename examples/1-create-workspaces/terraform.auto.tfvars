@@ -4,7 +4,7 @@ workspace_ids = [
   # "hashicat-gcp", # test
   # "hashicat-azure", # test
   "aws-ec2-instance-dev-us-west-1", #test
-  # "aws-ec2-instance-prod-us-west-1", #test
+  "aws-ec2-instance-prod-us-west-1", #test
   # "aws-ec2-instance-dev-us-west-1", #test
   # "gcp-compute-instance-dev-us-west-1", #test
 ]
