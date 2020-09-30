@@ -1,7 +1,13 @@
-provider "tfe" {
-  hostname = "app.terraform.io"
-}
+# provider "tfe" {
+#   hostname = "app.terraform.io"
+# }
 
 terraform {
   required_version = ">=v0.12.29"
+  required_providers {
+    tfe = {
+      source  = "hashicorp/tfe"
+      version = "~> 0.21.0"
+    }
+  }
 }
