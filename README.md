@@ -1,4 +1,5 @@
 # Quick Start
+
 The examples for this repo does four main things.
 
 1. Create workspace-creator.
@@ -14,7 +15,6 @@ The examples for this repo does four main things.
 3. Assigns teams for your org.
 4. Create/update variables for your created workspaces
 [terraform-tfe-workspace - Step 4. Create Variables](bear://x-callback-url/open-note?id=5B958914-152D-4C7C-967A-8625501F4EA9-94682-000433567BB8C107&header=Step%204.%20Create%20Variables)
-
 
 > We broke these into separate workspaces since team creation and assignment can be independent of workspace creation. This also make runs faster and damage blast radius smaller.
 
